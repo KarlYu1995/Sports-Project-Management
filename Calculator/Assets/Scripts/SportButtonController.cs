@@ -16,14 +16,38 @@ public class SportButtonController : MonoBehaviour {
     [SerializeField]
     SportsListController list;
     Sports sport;
+    bool currentActiveState = false;//このSportsがリストに入ているならtrueそうでないならfalse
+    
 
-	// Use this for initialization
 	void Start () {
         sport = new Sports(cost, ticket, live, location);
-        GetComponent<Button>().onClick.AddListener(addThisSportToList);
+        GetComponent<Image>().color = Color.gray;
+        GetComponent<Button>().onClick.AddListener(ClickBehavior);
+        list.SetList(index, sport);
 	}
 
-    void addThisSportToList() {
-        list.SetList(index,sport);
+    void ClickBehavior()
+    {
+        if (currentActiveState)
+        {
+            Deactivate();
+            GetComponent<Image>().color = Color.gray;
+        }
+        else {
+            Activate();
+            GetComponent<Image>().color = Color.green;
+        }
+        list.UpdateResult();
     }
+
+    void Activate() {
+        list.SetActiveList(index, true);
+        currentActiveState = true;
+    }
+
+    void Deactivate() {
+        list.SetActiveList(index, false);
+        currentActiveState = false;
+    }
+
 }

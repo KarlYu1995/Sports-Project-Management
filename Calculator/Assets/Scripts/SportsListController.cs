@@ -4,25 +4,38 @@ using UnityEngine.UI;
 
 public class SportsListController : MonoBehaviour {
 
-    //[SerializeField]
+    [SerializeField]
+    int totalSportNum;
     Sports[] list;
+    [SerializeField]
+    bool[] activeList;
 
     public void SetList(int index, Sports sport)
     {
-        list[index] = sport;
-        UpdateResult();
+        list[index] = sport;;
     }
 
-    private void Start()
+    public void SetActiveList(int index,bool state)
     {
-        list = new Sports[1];
+        activeList[index] = state;
     }
 
-    void UpdateResult()
+    private void Awake()
+    {
+        list = new Sports[totalSportNum];
+        activeList = new bool[totalSportNum];
+        for (int i = 0; i < totalSportNum; i++) {
+            activeList[i] = false;
+        }
+    }
+
+    public void UpdateResult()
     {
         float result = 0f;
-        foreach (Sports sport in list) {
-            result += (sport.Ticket + sport.Live - sport.Cost);
+        for (int i = 0; i < totalSportNum; i++) {
+            if (activeList[i]) {
+                result += (list[i].Ticket + list[i].Live - list[i].Cost);
+            }
         }
         GetComponent<Text>().text = result.ToString();
     }
