@@ -4,7 +4,8 @@ public class Sports {
     float cost;
     float ticket;
     float live;
-    string location;
+    int location;
+    int popularity;
 
     public float Cost
     {
@@ -23,16 +24,22 @@ public class Sports {
         set { this.live = value; }
     }
 
-    public string Location
+    public int Location
     {
         get { return this.location; }
         set { this.location = value; }
     }
 
-    public Sports(float cost,float ticket,float live,string location) {
+    public int Popularity{
+        get { return this.popularity; }
+        set { this.popularity = value; }
+    }
+
+    public Sports(float cost,float ticket,float live,int location,int popularity) {
         this.cost = cost;
         this.ticket = ticket;
         this.live = live;
         this.location = location;
+        this.popularity = popularity;
     }
 }

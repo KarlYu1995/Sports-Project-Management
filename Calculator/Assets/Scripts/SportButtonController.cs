@@ -10,7 +10,9 @@ public class SportButtonController : MonoBehaviour {
     [SerializeField]
     float live;
     [SerializeField]
-    string location;
+    int location;
+    [SerializeField]
+    int popularity;
     [SerializeField]
     int index;
     [SerializeField]
@@ -20,24 +22,27 @@ public class SportButtonController : MonoBehaviour {
     
 
 	void Start () {
-        sport = new Sports(cost, ticket, live, location);
+        sport = new Sports(cost, ticket, live, location,popularity);
         GetComponent<Image>().color = Color.gray;
         GetComponent<Button>().onClick.AddListener(ClickBehavior);
-        list.SetList(index, sport);
+        UpdateSport();
 	}
 
     void ClickBehavior()
     {
+        bool changecolor;
         if (currentActiveState)
         {
             Deactivate();
+            changecolor = false;
             GetComponent<Image>().color = Color.gray;
         }
         else {
             Activate();
+            changecolor = true;
             GetComponent<Image>().color = Color.green;
         }
-        list.UpdateResult();
+        list.UpdateResult(changecolor);
     }
 
     void Activate() {
@@ -48,6 +53,17 @@ public class SportButtonController : MonoBehaviour {
     void Deactivate() {
         list.SetActiveList(index, false);
         currentActiveState = false;
+   }
+
+    public void UpdateLocation(int newLocation){
+        sport.Location = newLocation;
+        this.location = newLocation;
+        UpdateSport();
+        list.UpdateResult(true);
+    }
+
+    void UpdateSport(){
+        list.SetList(index, sport);
     }
 
 }
