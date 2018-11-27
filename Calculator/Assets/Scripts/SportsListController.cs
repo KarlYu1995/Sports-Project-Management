@@ -86,10 +86,13 @@ public class SportsListController : MonoBehaviour
             {
                 totalLive += list[i].Live;//グループ１の放映権
                 testList.Add(new Test(i, list[i].Popularity));//人気順位
-                if (list[i].Location != 3 && list[i].Location != 7 && list[i].Location != 0)//開催地のコストとチケットoff
+                if (list[i].Location == 2 && list[i].Location == 6)//開催地のコストとチケットoff
                 {
                     totalCost += list[i].Cost * 0.8f;
                     totalTicket += list[i].Ticket * 0.9f;
+                }
+                else if(list[i].Location == 4 && list[i].Location == 5){
+                    totalCost += list[i].Cost * 0.8f;
                 }
                 else
                 {
@@ -99,9 +102,9 @@ public class SportsListController : MonoBehaviour
             }
         }
 
-        int count = 0;
-        var topTenPopularityIndex = testList.ToLookup(s => s.popularity, s => s.index).OrderBy(s => s.Key).Take(Mathf.Min(15, testList.Count));//人気度上位１０のグループ選択（未実現）
 
+        var topTenPopularityIndex = testList.ToLookup(s => s.popularity, s => s.index).OrderBy(s => s.Key).Take(Mathf.Min(15, testList.Count));//人気度上位１０のグループ選択（未実現）
+        int count = 0;
         List<int> topTenIndexes = new List<int> { };
         foreach (IGrouping<int, int> i in topTenPopularityIndex)
         {
